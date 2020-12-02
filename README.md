@@ -2,6 +2,12 @@
 
 ## Setup
 
+### New setup
+
+On Ubuntu 18.04 or Ubuntu 20.04, run `./install.sh`. To activate the virtual environment, run `source ~/envs/halucinator/bin/activate`.
+
+### Original setup
+
 Note:  This has been lightly tested on Ubuntu 16.04, and 18.04
 
 1.  Install dependencies using `./install_deps.sh`
