@@ -4,7 +4,7 @@
 
 ### New setup
 
-On Ubuntu 18.04 or Ubuntu 20.04, run `./install.sh`. To activate the virtual environment, run `source ~/envs/halucinator/bin/activate`.
+On Ubuntu 18.04 or Ubuntu 20.04, run `./install.sh`. In the Avatar2 installer, select `avatar-qemu`. To activate the virtual environment, run `source ~/envs/halucinator/bin/activate`.
 
 ### Original setup
 
