@@ -9,17 +9,17 @@ hal_log = hal_log.getHalLogger()
 
 class MSP432UART(BPHandler):
 
-    def __init__(self, impl=UARTPublisher)
+    def __init__(self, impl=UARTPublisher):
         self.model = impl
 
     # TI Drivers handlers (High level drivers)
     @bp_handler(['UART_open'])
     def get_index(self, qemu, bp_addr):
-        uart_index = qemu.get_arg(0)
-        # Return the index as the handle so we know it in future operations
         # Add 1 so that the NULL handle check doesn't trigger an error
+        uart_index = qemu.get_arg(0) + 1
+        # Return the index as the handle so we know it in future operations
         hal_log.info("Uart %i initialized" % uart_index)
-        return True, uart_index + 1
+        return True, uart_index
 
     @bp_handler(['UART_write'])
     def handle_tx(self, qemu, bp_addr):
@@ -28,7 +28,7 @@ class MSP432UART(BPHandler):
         buf_len = qemu.get_arg(2)
         # Read buffer from QEMU memory
         data = qemu.read_memory(buf_addr, 1, buf_len, raw=True)
-        hal_log.info("UART %i TX:%s" % (hw_addr, data))
+        hal_log.info("UART %i TX:%s" % (uart_index, data))
         self.model.write(uart_index, data)
         # Return the number of bytes written
         return True, buf_len

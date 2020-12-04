@@ -20,4 +20,9 @@ intercepts:
   symbol: UART_write
 
 # ------------------------------- Generic ------------------------------------
-
+- class: halucinator.bp_handlers.ReturnZero
+  function: SysCtlClockFreqSet
+  symbol: SysCtlClockFreqSet
+- class: halucinator.bp_handlers.SkipFunc
+  function: GPIO_init
+  symbol: GPIO_init

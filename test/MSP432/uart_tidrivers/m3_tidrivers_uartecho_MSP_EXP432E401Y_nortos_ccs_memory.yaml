@@ -1,0 +1,8 @@
+# Memory regions obtained from https://www.ti.com/lit/ds/symlink/msp432e401y.pdf
+
+memories:
+  flash: {base_addr: 0x0, file: m3_tidrivers_uartecho_MSP_EXP432E401Y_nortos_ccs.elf.bin,
+    permissions: r-x, size: 0x100000}
+  ram: {base_addr: 0x20000000, size: 0x40000}
+peripherals:
+  logger: {base_addr: 0x40000000, emulate: GenericPeripheral, permissions: rw-, size: 0x20000000}
