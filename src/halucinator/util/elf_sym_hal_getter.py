@@ -6,6 +6,7 @@ import yaml
 from . import hexyaml
 import angr
 import os
+import subprocess
 
 
 def load_binary(filename):
@@ -46,6 +47,20 @@ def get_functions_and_addresses(binary):
             functions[symbol.name] = symbol.rebased_addr & 0xFFFFFFFE
     return functions
 
+def get_functions_and_addresses_readelf(binary):
+
+    functions = {}
+
+    output = subprocess.run(['readelf', '--symbols', binary], stdout=subprocess.PIPE)
+    output = output.stdout.decode('utf-8')
+    for line in output.split('\n')[3:-1]:
+        line = [s for s in line.split(' ') if s != '']
+        if line[3] == 'FUNC':
+            func_addr = line[1]
+            func_name = line[7]
+            functions[func_name] = int(func_addr, 16) & 0xFFFFFFFE
+    
+    return functions
 
 def format_output(functions, base_addr=0x00000000, entry=0):
     '''
@@ -80,12 +95,19 @@ def main():
     p.add_argument('-o', '--out', required=False,
                    help='YAML file to save output to' +
                    'if will be output to (--bin).yaml')
+    p.add_argument('-m', '--method', required=False,
+                   help='Method of getting symbols (cle or readelf)')
 
     args = p.parse_args()
     if args.out == None:
         args.out = os.path.splitext(args.bin)[0] + "_addrs.yaml"
+    if args.method == None or args.method == "cle":
+        functions = get_functions_and_addresses(args.bin)
+    elif args.method == "readelf":
+        functions = get_functions_and_addresses_readelf(args.bin)
+    else:
+        print("Unknown method. Please select cle or readelf.")
 
-    functions = get_functions_and_addresses(args.bin)
     with open(args.out, 'w') as outfile:
         out_dict = format_output(functions)
         yaml.safe_dump(out_dict, outfile)
