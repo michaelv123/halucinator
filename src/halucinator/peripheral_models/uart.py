@@ -18,6 +18,8 @@ log = logging.getLogger(__name__)
 @peripheral_server.peripheral_model
 class UARTPublisher(object):
     rx_buffers = defaultdict(deque)
+    int_numbers = defaultdict(lambda: -1)
+    int_enabled = defaultdict(lambda: False)
 
     @classmethod
     @peripheral_server.tx_msg
@@ -97,3 +99,19 @@ class UARTPublisher(object):
         uart_id = msg['id']
         data = msg['chars']
         cls.rx_buffers[uart_id].extend(data)
+
+        # If the interrupt for the UART device is enabled, send an interrupt
+        if int_enabled[uart_id] and int_numbers[uart_id] != -1:
+            peripheral_server.trigger_interrupt(int_numbers[uart_id])
+
+    @classmethod
+    def register_interrupt(cls, uart_id, int_id)
+        int_numbers[uart_id] = int_id
+
+    @classmethod
+    def enable_interrupt(cls, uart_id):
+        int_enabled[uart_id] = True
+
+    @classmethod
+    def disable_interrupt(cls, uart_id):
+        int_enabled[uart_id] = False
