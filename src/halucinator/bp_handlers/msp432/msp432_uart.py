@@ -47,4 +47,7 @@ class MSP432UART(BPHandler):
         return True, buf_len
 
     # Driverlib handlers (HAL functions)
-    # TODO
+    @bp_handler(['IntEnable'])
+    @bp_handler(['UARTCharsAvail'])
+    @bp_handler(['UARTCharGetNonBlocking'])
+    @bp_handler(['UARTCharPutNonBlocking'])
