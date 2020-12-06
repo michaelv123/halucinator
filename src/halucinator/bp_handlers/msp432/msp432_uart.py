@@ -9,8 +9,13 @@ hal_log = hal_log.getHalLogger()
 
 class MSP432UART(BPHandler):
 
+    int_addrs = defaultdict(lambda: -1)
+    int_enabled = defaultdict(lambda: False)
+    uart_int_enabled = defaultdict(lambda: False)
+
     def __init__(self, impl=UARTPublisher):
         self.model = impl
+        self.int_addrs[21] = 0x4000c000
 
     # TI Drivers handlers (High level drivers)
     @bp_handler(['UART_open'])
@@ -48,6 +53,27 @@ class MSP432UART(BPHandler):
 
     # Driverlib handlers (HAL functions)
     @bp_handler(['IntEnable'])
+    def int_enable(self, qemu, bp_addr):
+        int_num = qemu.get_arg(0)
+        if int_addrs[int_num] != -1:
+            self.int_enabled[int_num] = True
+            self.model.register_interrupt(int_addrs[int_num], int_num)
+            # Only enable the interrupt if both the interrupt and its source are enabled
+            if int_enabled[int_num] and uart_int_enabled[int_num]:
+                self.model.enable_interrupt(int_addrs[int_num])
+
+    @bp_handler(['UARTIntEnable'])
+    def uart_int_enable(self, qemu, bp_addr):
+        hw_addr = qemu.get_arg(0)
+        for num, addr in int_addrs.items():
+            if addr = hw_addr:
+                int_num = num
+        uart_int_enabled[int_num] = True
+        # Only enable the interrupt if both the interrupt and its source are enabled
+        if int_enabled[int_num] and uart_int_enabled[int_num]:
+            self.model.enable_interrupt(int_addrs[int_num])
+
+
     @bp_handler(['UARTCharsAvail'])
     @bp_handler(['UARTCharGetNonBlocking'])
     @bp_handler(['UARTCharPutNonBlocking'])
