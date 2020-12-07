@@ -1,4 +1,5 @@
 from os import sys, path
+from collections import defaultdict
 from ...peripheral_models.uart import UARTPublisher
 from ..bp_handler import BPHandler, bp_handler
 import logging
@@ -55,25 +56,52 @@ class MSP432UART(BPHandler):
     @bp_handler(['IntEnable'])
     def int_enable(self, qemu, bp_addr):
         int_num = qemu.get_arg(0)
-        if int_addrs[int_num] != -1:
+        if self.int_addrs[int_num] != -1:
             self.int_enabled[int_num] = True
-            self.model.register_interrupt(int_addrs[int_num], int_num)
+            self.model.register_interrupt(self.int_addrs[int_num], int_num)
             # Only enable the interrupt if both the interrupt and its source are enabled
-            if int_enabled[int_num] and uart_int_enabled[int_num]:
-                self.model.enable_interrupt(int_addrs[int_num])
+            if self.int_enabled[int_num] and self.uart_int_enabled[int_num]:
+                self.model.enable_interrupt(self.int_addrs[int_num])
+                hal_log.info("UART %i interrupt %i enabled" % (self.int_addrs[int_num], int_num))
+        return True, None
 
     @bp_handler(['UARTIntEnable'])
     def uart_int_enable(self, qemu, bp_addr):
         hw_addr = qemu.get_arg(0)
-        for num, addr in int_addrs.items():
-            if addr = hw_addr:
+        for num, addr in self.int_addrs.items():
+            if addr == hw_addr:
                 int_num = num
-        uart_int_enabled[int_num] = True
+        self.uart_int_enabled[int_num] = True
         # Only enable the interrupt if both the interrupt and its source are enabled
-        if int_enabled[int_num] and uart_int_enabled[int_num]:
-            self.model.enable_interrupt(int_addrs[int_num])
+        if self.int_enabled[int_num] and self.uart_int_enabled[int_num]:
+            self.model.enable_interrupt(self.int_addrs[int_num])
+            hal_log.info("UART %i interrupt %i enabled" % (self.int_addrs[int_num], int_num))
+        return True, None
 
 
     @bp_handler(['UARTCharsAvail'])
+    def uart_chars_available(self, qemu, bp_addr):
+        hw_addr = qemu.get_arg(0)
+        avail = self.model.chars_available(hw_addr)
+        hal_log.info("UART %i chars available: %i" % (hw_addr, int(avail)))
+        return True, int(avail)
+
     @bp_handler(['UARTCharGetNonBlocking'])
+    def uart_char_get_non_blocking(self, qemu, bp_addr):
+        hw_addr = qemu.get_arg(0)
+        char = self.model.read(hw_addr, 1, block=False)
+        if char == b'':
+            ret = -1
+        else:
+            ret = char[0]
+        hal_log.info("UART %i get char: %b | %i" % (hw_addr, char, ret))
+        return True, ret
+
     @bp_handler(['UARTCharPutNonBlocking'])
+    def uart_char_put_non_blocking(self, qemu, bp_addr):
+        hw_addr = qemu.get_arg(0)
+        char = qemu.get_arg(1)
+        char = char.to_bytes(1, byteorder='big')
+        self.model.write(hw_addr, char)
+        hal_log.info("UART %i put char: %s" % (hw_addr, char.decode('utf-8')))
+        return True, 1

@@ -113,7 +113,6 @@ def start(rx_port=5555, tx_port=5556, qemu=None):
 
 def trigger_interrupt(num):
     global __qemu
-    log.info("Sending Interrupt: %s" % num)
     __qemu.trigger_interrupt(num)
 
 
@@ -160,7 +159,7 @@ def run_server():
                 log.info("Triggering Interrupt %s" % msg['num'])
                 trigger_interrupt(msg['num'])
             elif topic.startswith("Interrupt.Base"):
-                log.info("Setting Vector Base Addr %s" % msg['num'])
+                log.info("Setting Vector Base Addr %s" % msg['base'])
                 __qemu.set_vector_table_base(msg['base'])
             else:
                 log.error("Unhandled topic received: %s" % topic)
