@@ -1,24 +1,30 @@
+machine:
+  vector_base: 0
+
 intercepts:
 
 # -------------- Intercepts for fault handlers (for debugging) ---------------
 - class: halucinator.bp_handlers.IPythonShell 
   function: HardFault_Handler
-  symbol: defaultHandler
-- class: halucinator.bp_handlers.IPythonShell 
-  function: HardFault_Handler
-  symbol: busFaultHandler
+  symbol: Default_Handler
 
 # -------------------------------UART ----------------------------------------
+# TODO: replace with driverlib functions
 - class: halucinator.bp_handlers.msp432.msp432_uart.MSP432UART
-  function: UART_open
-  symbol: UART_open
+  function: IntEnable
+  symbol: IntEnable
 - class: halucinator.bp_handlers.msp432.msp432_uart.MSP432UART
-  function: UART_read
-  symbol: UART_read
+  function: UARTIntEnable
+  symbol: UARTIntEnable
 - class: halucinator.bp_handlers.msp432.msp432_uart.MSP432UART
-  function: UART_write
-  symbol: UART_write
-
+  function: UARTCharsAvail
+  symbol: UARTCharsAvail
+- class: halucinator.bp_handlers.msp432.msp432_uart.MSP432UART
+  function: UARTCharGetNonBlocking
+  symbol: UARTCharGetNonBlocking
+- class: halucinator.bp_handlers.msp432.msp432_uart.MSP432UART
+  function: UARTCharPutNonBlocking
+  symbol: UARTCharPutNonBlocking
 # ------------------------------- Generic ------------------------------------
 - class: halucinator.bp_handlers.ReturnZero
   function: SysCtlClockFreqSet
@@ -26,6 +32,3 @@ intercepts:
 - class: halucinator.bp_handlers.SkipFunc
   function: GPIO_init
   symbol: GPIO_init
-- class: halucinator.bp_handlers.SkipFunc
-  function: UART0_IRQHandler
-  symbol: UART0_IRQHandler

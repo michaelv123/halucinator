@@ -101,17 +101,25 @@ class UARTPublisher(object):
         cls.rx_buffers[uart_id].extend(data)
 
         # If the interrupt for the UART device is enabled, send an interrupt
-        if int_enabled[uart_id] and int_numbers[uart_id] != -1:
-            peripheral_server.trigger_interrupt(int_numbers[uart_id])
+        if cls.int_enabled[uart_id] and cls.int_numbers[uart_id] != -1:
+            peripheral_server.trigger_interrupt(cls.int_numbers[uart_id])
 
     @classmethod
-    def register_interrupt(cls, uart_id, int_id)
-        int_numbers[uart_id] = int_id
+    def register_interrupt(cls, uart_id, int_id):
+        cls.int_numbers[uart_id] = int_id
 
     @classmethod
     def enable_interrupt(cls, uart_id):
-        int_enabled[uart_id] = True
+        cls.int_enabled[uart_id] = True
 
     @classmethod
     def disable_interrupt(cls, uart_id):
-        int_enabled[uart_id] = False
+        cls.int_enabled[uart_id] = False
+
+    @classmethod
+    def chars_available(cls, uart_id):
+        buffer = cls.rx_buffers[uart_id]
+        if len(buffer) == 0:
+            return False
+        else:
+            return True
