@@ -21,7 +21,7 @@ class UARTPrintServer(object):
     def write_handler(self, ioserver, msg):
         txt = msg['chars'].decode('latin-1')
         self.prev_print = txt
-        print("%s" % txt, end=' ', flush=True)
+        print("%s" % txt, end='', flush=True)
 
     def send_data(self, id, chars):
         d = {'id': id, 'chars': chars}

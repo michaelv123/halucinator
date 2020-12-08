@@ -11,8 +11,6 @@ hal_log = hal_log.getHalLogger()
 class MSP432UART(BPHandler):
 
     int_addrs = defaultdict(lambda: -1)
-    int_enabled = defaultdict(lambda: False)
-    uart_int_enabled = defaultdict(lambda: False)
 
     def __init__(self, impl=UARTPublisher):
         self.model = impl
@@ -57,13 +55,11 @@ class MSP432UART(BPHandler):
     def int_enable(self, qemu, bp_addr):
         int_num = qemu.get_arg(0)
         if self.int_addrs[int_num] != -1:
-            self.int_enabled[int_num] = True
             self.model.register_interrupt(self.int_addrs[int_num], int_num)
-            # Only enable the interrupt if both the interrupt and its source are enabled
-            if self.int_enabled[int_num] and self.uart_int_enabled[int_num]:
-                self.model.enable_interrupt(self.int_addrs[int_num])
-                hal_log.info("UART %i interrupt %i enabled" % (self.int_addrs[int_num], int_num))
-        return True, None
+        # What did we learn today?
+        # Avatar2's "configurable" ARM machine initialises QEMU's NVIC at 0xe000e000 when the "cortex-m3" cpu-model is specified
+        # This function interacts with the NVIC to enable interrupts, so don't return True or interrupts won't work :D
+        return False, None
 
     @bp_handler(['UARTIntEnable'])
     def uart_int_enable(self, qemu, bp_addr):
@@ -71,11 +67,8 @@ class MSP432UART(BPHandler):
         for num, addr in self.int_addrs.items():
             if addr == hw_addr:
                 int_num = num
-        self.uart_int_enabled[int_num] = True
-        # Only enable the interrupt if both the interrupt and its source are enabled
-        if self.int_enabled[int_num] and self.uart_int_enabled[int_num]:
-            self.model.enable_interrupt(self.int_addrs[int_num])
-            hal_log.info("UART %i interrupt %i enabled" % (self.int_addrs[int_num], int_num))
+        self.model.enable_interrupt(self.int_addrs[int_num])
+        hal_log.info("UART %i interrupt %i enabled" % (self.int_addrs[int_num], int_num))
         return True, None
 
 
