@@ -11,6 +11,7 @@ intercepts:
 # -------------------------------UART ----------------------------------------
 # TODO: replace with driverlib functions
 - class: halucinator.bp_handlers.msp432.msp432_uart.MSP432UART
+#- class: halucinator.bp_handlers.IPythonShell
   function: IntEnable
   symbol: IntEnable
 - class: halucinator.bp_handlers.msp432.msp432_uart.MSP432UART
@@ -32,3 +33,6 @@ intercepts:
 - class: halucinator.bp_handlers.SkipFunc
   function: GPIO_init
   symbol: GPIO_init
+- class: halucinator.bp_handlers.SkipFunc
+  function: SysCtlDelay
+  symbol: SysCtlDelay
