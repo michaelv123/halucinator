@@ -94,7 +94,7 @@ class MSP432UART(BPHandler):
             ret = -1
         else:
             ret = char[0]
-        hal_log.info("UART %i get char: %b | %i" % (hw_addr, char, ret))
+        hal_log.info("UART %i get char: %s | %i" % (hw_addr, char.decode('utf-8'), ret))
         return True, ret
 
     @bp_handler(['UARTCharPutNonBlocking'])

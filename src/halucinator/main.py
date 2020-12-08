@@ -130,7 +130,6 @@ def get_qemu_target(name, config, firmware=None, log_basic_blocks=False, gdb_por
     arch = ARCH_LUT[config.machine.arch]
     
     avatar = Avatar(arch=arch, output_directory=outdir)
-    avatar.load_plugin('arm.armv7m_interrupts')
     log.info("GDB_PORT: %s"% gdb_port)
     log.info("QEMU Path: %s" % qemu_path)
 
@@ -266,7 +265,6 @@ def emulate_binary(config, target_name=None, log_basic_blocks=None,
         qemu.regs.cpsr |= 0x20  # Make sure the thumb bit is set
         qemu.regs.sp = config.machine.init_sp  # Set SP as Qemu doesn't init correctly
         qemu.set_vector_table_base(config.machine.vector_base)
-        qemu.protocols.interrupts.enable_interrupts()
     
 
     # Emulate the Binary
