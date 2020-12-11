@@ -1,0 +1,55 @@
+TotalRomSize     | 00 0000 0000 0000 0000 0080 00
+PrgStart         | 00 0000 0000 0000 0000 0000 0000 9424 40
+SubRom1Adr       | 00 0000 0000 0000 0000 0000 0000 e4
+SubRom2Adr       | 00 0000 0000 0000 0000 0000 0080 e4
+ROMKindP_OK2Boot | 00 0000 0003 0000 00
+SecondPrgAdr     | 00 0000 0000 0000 0000 007e e0
+Poweron_flag     | 00 0000 0000 0000 0000 0000 00
+Asic_Rev         | 00 0000 0000 0000 0000 0000 0002 0000 00
+Secu             | 00 0000 0000 0000 0000 0000 0000 0000 0000 0000 00
+RamHighAdr       | 00 0000 0000 0000 0000 0000 0080 41
+ZlibRoSrcAdr     | 00 0000 0000 0000 00a8 1a0b e0
+ZlibRoDstAdr     | 00 0000 0000 0000 0000 9424 40
+ZlibRoDstSize    | 0000 0000 0000 001c 7aa2 00
+ZlibRwSrcAdr     | 00 0000 0000 0000 0000 01b0 e0
+ZlibRwDstAdr     | 00 0000 0000 0000 0000 24d0 40
+ZlibRwDstSize    | 0000 0000 0000 009c 0500 00
+PageTableSrcAdr  | 0000 0000 0000 0006 e0
+PageTableDstAdr  | 0000 0000 0000 0006 e0
+PageTableDstSize | 00 0000 0000 8400 00
+KernelRoSrcAdr   | 00 0000 0000 0094 8706 e0
+KernelRoDstAdr   | 00 0000 0000 0000 0010 40
+KernelRoDstSize  | 0000 0000 0014 9304 00
+ZlibRwZiDst      | 0000 0000 0000 0000 009c 29d0 40
+ZlibRWZiSize     | 00 0000 0000 0000 0000 0000 00
+Zlib2RwSrcAdr    | 0000 0000 0000 00a0 06b0 e0
+Zlib2RwDstAdr    | 0000 0000 0000 0000 8b11 41
+Zlib2RwDstSize   | 00 0000 0000 0044 8505 00
+Zlib2RwZiDst     | 00 0000 0000 0000 0044 1017 41
+Zlib2RWZiSize    | 0000 0000 0000 0000 0000 00
+MainPrgZlib      | ? (perhaps this is just a statement that the entry point code is compressed)
+
+-----
+
+Entry point = PrgStart
+            = 0x402494
+            = ZlibRoDstAddr
+            
+ZlibRoDstSize = 0xa27a1c
+              = size of decompressed zlib from binwalk at 0x51b3f
+              
+Therefore the decompressed blob is the entry point code! P.s. it's in thumb mode.
+
+-----
+
+ZlibRwDstSize = 0x59c = decompressed zlib at 0x5B8F0C
+Zlib2RwDstSize = 0x58544 = decompressed zlib at 0x5B8FF6
+
+-----
+
+TODO
+
+- What's going on with src addresses? How to map them to physical file offsets?
+- Where's the kernel? (Need src address mapping for this)
+- What is "Zi" for the RW sections
+- SubRom/SecondPrgAddr etc. stuff - code/data for subcpu?
