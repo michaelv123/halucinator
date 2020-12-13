@@ -1,38 +1,38 @@
-TotalRomSize     | 00 0000 0000 0000 0000 0080 00
-PrgStart         | 00 0000 0000 0000 0000 0000 0000 9424 40
-SubRom1Adr       | 00 0000 0000 0000 0000 0000 0000 e4
-SubRom2Adr       | 00 0000 0000 0000 0000 0000 0080 e4
-ROMKindP_OK2Boot | 00 0000 0003 0000 00
-SecondPrgAdr     | 00 0000 0000 0000 0000 007e e0
-Poweron_flag     | 00 0000 0000 0000 0000 0000 00
-Asic_Rev         | 00 0000 0000 0000 0000 0000 0002 0000 00
-Secu             | 00 0000 0000 0000 0000 0000 0000 0000 0000 0000 00
-RamHighAdr       | 00 0000 0000 0000 0000 0000 0080 41
-ZlibRoSrcAdr     | 00 0000 0000 0000 00a8 1a0b e0
-ZlibRoDstAdr     | 00 0000 0000 0000 0000 9424 40
-ZlibRoDstSize    | 0000 0000 0000 001c 7aa2 00
-ZlibRwSrcAdr     | 00 0000 0000 0000 0000 01b0 e0
-ZlibRwDstAdr     | 00 0000 0000 0000 0000 24d0 40
-ZlibRwDstSize    | 0000 0000 0000 009c 0500 00
-PageTableSrcAdr  | 0000 0000 0000 0006 e0
-PageTableDstAdr  | 0000 0000 0000 0006 e0
-PageTableDstSize | 00 0000 0000 8400 00
-KernelRoSrcAdr   | 00 0000 0000 0094 8706 e0
-KernelRoDstAdr   | 00 0000 0000 0000 0010 40
-KernelRoDstSize  | 0000 0000 0014 9304 00
-ZlibRwZiDst      | 0000 0000 0000 0000 009c 29d0 40
-ZlibRWZiSize     | 00 0000 0000 0000 0000 0000 00
-Zlib2RwSrcAdr    | 0000 0000 0000 00a0 06b0 e0
-Zlib2RwDstAdr    | 0000 0000 0000 0000 8b11 41
-Zlib2RwDstSize   | 00 0000 0000 0044 8505 00
-Zlib2RwZiDst     | 00 0000 0000 0000 0044 1017 41
-Zlib2RWZiSize    | 0000 0000 0000 0000 0000 00
-MainPrgZlib      | ? (perhaps this is just a statement that the entry point code is compressed)
+TotalRomSize     | 0x800000   | 00 0000 0000 0000 0000 0080 00
+PrgStart         | 0x40249400 | 00 0000 0000 0000 0000 0000 0000 9424 40
+SubRom1Adr       | 0xe4000000 | 00 0000 0000 0000 0000 0000 0000 e4 
+SubRom2Adr       | 0xe4800000 | 00 0000 0000 0000 0000 0000 0080 e4 
+ROMKindP_OK2Boot |            | 00 0000 0003 0000 00
+SecondPrgAdr     | 0xe07e0000 | 00 0000 0000 0000 0000 007e e0 
+Poweron_flag     |            | 00 0000 0000 0000 0000 0000 00
+Asic_Rev         |            | 00 0000 0000 0000 0000 0000 0002 0000 00
+Secu             |            | 00 0000 0000 0000 0000 0000 0000 0000 0000 0000 00
+RamHighAdr       | 0x41800000 | 00 0000 0000 0000 0000 0000 0080 41 
+ZlibRoSrcAdr     | 0xe00b1aa8 | 00 0000 0000 0000 00a8 1a0b e0 
+ZlibRoDstAdr     | 0x40249400 | 00 0000 0000 0000 0000 9424 40 
+ZlibRoDstSize    | 0xa27a1c   | 0000 0000 0000 001c 7aa2 00 
+ZlibRwSrcAdr     | 0xe0b00100 | 00 0000 0000 0000 0000 01b0 e0 
+ZlibRwDstAdr     | 0x40d02400 | 00 0000 0000 0000 0000 24d0 40 
+ZlibRwDstSize    | 0x59c      | 0000 0000 0000 009c 0500 00 
+PageTableSrcAdr  | 0xe0060000 | 0000 0000 0000 0006 e0
+PageTableDstAdr  | 0xe0060000 | 0000 0000 0000 0006 e0
+PageTableDstSize | 0x8400     | 00 0000 0000 8400 00 
+KernelRoSrcAdr   | 0xe0068794 | 00 0000 0000 0094 8706 e0 
+KernelRoDstAdr   | 0x40100000 | 00 0000 0000 0000 0010 40 
+KernelRoDstSize  | 0x49314    | 0000 0000 0014 9304 00 
+ZlibRwZiDst      | 0x40d0299c | 0000 0000 0000 0000 009c 29d0 40 
+ZlibRWZiSize     | 0x0        | 00 0000 0000 0000 0000 0000 00 
+Zlib2RwSrcAdr    | 0xe0b006a0 | 0000 0000 0000 00a0 06b0 e0 
+Zlib2RwDstAdr    | 0x41118b00 | 0000 0000 0000 0000 8b11 41 
+Zlib2RwDstSize   | 0x58544    | 00 0000 0000 0044 8505 00 
+Zlib2RwZiDst     | 0x41171044 | 00 0000 0000 0000 0044 1017 41 
+Zlib2RWZiSize    | 0x0        | 0000 0000 0000 0000 0000 00 
+MainPrgZlib      |            | ? (perhaps this is just a statement that the entry point code is compressed)
 
 -----
 
 Entry point = PrgStart
-            = 0x402494
+            = 0x40249400
             = ZlibRoDstAddr
             
 ZlibRoDstSize = 0xa27a1c
@@ -47,9 +47,32 @@ Zlib2RwDstSize = 0x58544 = decompressed zlib at 0x5B8FF6
 
 -----
 
+Kernel is at 0x8827 - 0x51b3a (length 0x49314)
+The difference between the kernel and RO source addresses = 0xe00b1aa8 - 0xe0068794 = 0x49314. This is the same size as the kernel, suggesting there is no padding in between.
+Therefore kernel = 0x51b3f - 0x49314 = 0x882b. Using a symbol table in Ghidra at the end of the kernel, we can correct this slightly to 0x8827. The extra 4 bytes seems to be a tiny bit of padding after all.
+
+-----
+
+Page table is at 0x93 - 0x8492 (length 0x8400)
+
+-----
+
+Section summary:
+
+- Page table
+- RO
+- RW
+- RW2
+- Kernel
+
+-----
+
+Firmware uses T-Kernel
+
+-----
+
 TODO
 
 - What's going on with src addresses? How to map them to physical file offsets?
-- Where's the kernel? (Need src address mapping for this)
-- What is "Zi" for the RW sections
-- SubRom/SecondPrgAddr etc. stuff - code/data for subcpu?
+- SubRom/SecondPrgAdr etc. stuff - code/data for subcpu?
+    - Figure out the physical mapping of SecondPrgAddr - it's somewhere in the RO zlib blob
