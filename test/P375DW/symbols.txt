@@ -60,14 +60,17 @@ Page table is at 0x93 - 0x8492 (length 0x8400)
 Section summary:
 
 - Page table
+- Kernel
 - RO
 - RW
 - RW2
-- Kernel
 
 -----
 
-Firmware uses T-Kernel
+- Kernel: T-Kernel - perhaps eSOL's "eT-Kernel"
+- Middleware: Endec Middleware
+- Filesystem: Reliance Nitro v3.0.6 Build 2306EC
+- TCP/IP: Kasago (Copyright 2011)
 
 -----
 
@@ -75,4 +78,3 @@ TODO
 
 - What's going on with src addresses? How to map them to physical file offsets?
 - SubRom/SecondPrgAdr etc. stuff - code/data for subcpu?
-    - Figure out the physical mapping of SecondPrgAddr - it's somewhere in the RO zlib blob
