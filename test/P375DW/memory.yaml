@@ -1,0 +1,23 @@
+machine:
+  arch: arm
+  entry_addr: 0x4024940c
+  init_sp: 0
+
+memories:
+  kernel_code: {base_addr: 0x40100000, file: ./sections/kernel.bin, permissions: rwx, size: 0x50000}
+  kernel_data: {base_addr: 0x40d02400, file: ./sections/RW.bin, permissions: rwx, size: 0x1000}
+  app_code: {base_addr: 0x40249400, file: ./sections/RO.bin, permissions: rw-, size: 0xa28000}
+  app_data: {base_addr: 0x41118b00, file: ./sections/RW2.bin, permissions: rw-, size: 0x59000}
+  # Filling in the gaps
+  #ram1: {base_addr: 0x40149314, size: 0x1000ec, permissions: rw-}
+  #ram2: {base_addr: 0x40c70e1c, size: 0x915e4, permissions: rw-}
+  #ram3: {base_addr: 0x40d0299c, size: 0x416164, permissions: rw-}
+  #ram4: {base_addr: 0x41171044, size: 0x68efbc, permissions: rw-}
+
+peripherals:
+  logger: {base_addr: 0x41800000, emulate: GenericPeripheral, permissions: rw-, size: 0x20000000}
+
+intercepts:
+- class: halucinator.bp_handlers.IPythonShell
+  function: asdf
+  addr: 0x40249414

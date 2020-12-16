@@ -193,7 +193,12 @@ def emulate_binary(config, target_name=None, log_basic_blocks=None,
 
     # Bug in QEMU about init stack pointer/entry point this works around
     if config.machine.arch == 'cortex-m3':
-        mem = config.memories['init_mem'] if 'init_mem' in config.memories else config.memories['flash']
+        if 'init_mem' in config.memories:
+            mem = config.memories['init_mem']
+        elif 'flash' in config.memories:
+            mem = config.memories['flash']
+        else:
+            mem = None
         if mem is not None and mem.file is not None:
             config.machine.init_sp, entry_addr = CM_helpers.get_sp_and_entry(mem.file)
         # Only use the discoved entry point if one not explicitly set
