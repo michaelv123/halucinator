@@ -129,7 +129,7 @@ def get_qemu_target(name, config, firmware=None, log_basic_blocks=False, gdb_por
     # Get info from config
     arch = ARCH_LUT[config.machine.arch]
     
-    avatar = Avatar(arch=arch, output_directory=outdir)
+    avatar = Avatar(arch=arch, cpu_model=config.machine.cpu_model, output_directory=outdir)
     log.info("GDB_PORT: %s"% gdb_port)
     log.info("QEMU Path: %s" % qemu_path)
 

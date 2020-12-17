@@ -1,6 +1,7 @@
 machine:
   arch: arm
-  entry_addr: 0x4024940c
+  cpu_model: cortex-a15
+  entry_addr: 0x40859790
   init_sp: 0
 
 memories:
@@ -15,9 +16,12 @@ memories:
   #ram4: {base_addr: 0x41171044, size: 0x68efbc, permissions: rw-}
 
 peripherals:
-  logger: {base_addr: 0x41800000, emulate: GenericPeripheral, permissions: rw-, size: 0x20000000}
+  logger: {base_addr: 0x41800000, emulate: GenericPeripheral, permissions: rw-, size: 0xbe800000}
 
 intercepts:
-- class: halucinator.bp_handlers.IPythonShell
-  function: asdf
-  addr: 0x40249414
+- class: halucinator.bp_handlers.SkipFunc
+  function: dummy
+  addr: 0x408b8eb4
+#- class: halucinator.bp_handlers.IPythonShell
+#  function: asdf
+#  addr: 0x408b8ee8
